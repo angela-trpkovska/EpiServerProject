@@ -1,0 +1,14 @@
+﻿@using EpiServerProject.Models.ViewModels;
+@using EpiServerProject.Models.Pages;
+@model PageViewModel<ProductPage>
+<style type="text/css">
+    .products{
+        margin-top:30px;
+        background:#808080;
+        }
+</style>
+
+<div class="products">
+    @Html.PropertyFor(m => m.CurrentPage.MainBody)
+</div>
+

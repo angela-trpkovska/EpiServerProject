@@ -1,0 +1,113 @@
+﻿@using EPiServer.Web
+@using System.Web.Optimization;
+@using EPiServer.Core;
+@using EPiServer.Filters;
+@using EPiServer.Framework.Web.Mvc.Html
+@using EpiServerProject.Models.Pages;
+@using EpiServerProject.Models.ViewModels;
+@using EpiServerProject.Helpers;
+@model IPageViewModel<SitePageData>
+<style type="text/css">
+    .navbar-fixed-top {
+        height: 70px;
+        background: #000000;
+    }
+
+    .navbar-brand {
+        margin-top: 0px;
+        padding-top: 0px;
+        padding-left: 50px;
+        margin-left: 50px;
+    }
+
+    .nav-item {
+        margin-top: 10px;
+        padding-top: 10px;
+        margin-left: 10px;
+        padding-left: 10px;
+        margin-right: 10px;
+        padding-right: 10px;
+        font-family: open-sans, sans-serif;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: #C6CCD3;
+    }
+
+    .navbar-nav > li > .dropdown-menu {
+        background: #000000;
+    }
+
+    .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu {
+        color: #C6CCD3;
+        font-family: open-sans, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+        .navbar-nav .open .dropdown-menu > li > a:hover {
+            color: #fff;
+            background: #000;
+        }
+</style>
+
+
+<div class="row">
+    <div id="header">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="@Model.Layout.LogotypeLinkUrl">
+                        <img alt="Brand" src="@Url.ContentUrl(@Model.Layout.Logotype.Url)" width="140" height="65"> 
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                     <!--Get all children of start page-->
+                        @{
+                            var allItems = EPiServer.DataFactory.Instance.GetChildren(PageReference.StartPage).Where(x => x.VisibleInMenu).ToList();
+                        }
+                        <li class="nav-item @(Model.CurrentPage.Name =="Home" ? "active" : "")">
+                            <a href=@Url.ContentUrl(PageReference.StartPage)>Home</a>
+                        </li>
+
+                        @foreach (var parent in allItems)
+                        {
+                           PageDataCollection children = EPiServer.DataFactory.Instance.GetChildren(new PageReference(parent.ContentLink.ID));
+                           IEnumerable<PageData> filteredChilds = EPiServer.Filters.FilterForVisitor.Filter(children).Where(p => p.VisibleInMenu);
+
+                            if (filteredChilds.Count() != 0)
+                            {
+                                <li class="dropdown nav-item">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-haspopup="true" aria-expanded="false">@parent.Name</a>
+                                     <ul class="dropdown-menu">
+                                        @foreach (PageData child in filteredChilds)
+                                        {
+                                            SitePageData page = child as SitePageData;
+                                            <li class="dropdown-item">
+                                                <a href="@Url.ContentUrl(page.ContentLink)">
+                                                    @page.Name
+                                                </a>
+                                            </li>
+                                         }
+                                     </ul>
+                                </li>
+                            }
+                          else
+                            {
+                                <li class="nav-item @(Model.CurrentPage.Name == parent.Name ? "active" :"")"><a href="@Url.ContentUrl(parent.ContentLink)">@parent.Name</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </div>
+</div>
+
+

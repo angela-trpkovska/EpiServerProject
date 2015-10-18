@@ -1,0 +1,21 @@
+﻿@using EpiServerProject.Models.ViewModels;
+@using EpiServerProject.Models.Pages;
+@model IPageViewModel<SitePageData>
+<style type="text/css">
+    .footer{
+        background: #000000;
+    }
+
+    .copyright-txt {
+        color: #999999;
+    }
+</style>
+
+<div class="footer">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4 copyright-txt">
+             &copy; @Html.PropertyFor(x => x.Layout.CopyrightsText)  |   @Html.PropertyFor(x => x.Layout.FooterText1)
+         </div>
+     </div>
+ </div>
+

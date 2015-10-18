@@ -1,0 +1,35 @@
+﻿#header {
+	margin:2% 0;	
+	}
+
+ .carousel {
+        background:url('images/cast_pattern.jpg') no-repeat 0 100%;
+    }
+
+
+
+/*Top*/	
+.logotype {
+	margin:2% 0;
+	}
+
+
+/*Footer*/
+
+.footer ul {
+	list-style-type:none;	
+	margin:1% 0;
+	}
+
+.span2,.span10
+{
+    margin-bottom:2%;    
+}	
+
+#header .span2, #header .span10 
+{
+    margin-bottom:0px;    
+ }
+
+
+

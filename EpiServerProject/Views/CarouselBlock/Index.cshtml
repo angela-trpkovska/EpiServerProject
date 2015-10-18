@@ -1,0 +1,95 @@
+﻿@model EpiServerProject.Models.Blocks.CarouselBlock
+<style type="text/css">
+    .carousel-inner > .item > img {
+        width: 80% !important;
+        height: 40% !important;
+        background: #ffffff;
+        margin: auto;
+    }
+
+    .btn {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        border: 0 none;
+        border-radius: 0;
+        font-size: 20px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .btn-primary {
+        background: #32ADD6;
+        color: #ffffff;
+    }
+
+    .btn-primary:hover {
+        background: #32ADD6;
+        color: #ffffff;
+    }
+
+    .carousel-control {
+        background: #ffffff;
+    }
+
+    .row {
+        background: #000000;
+    }
+
+    .myCarousel{
+        background-repeat: repeat-x;
+        background-position: left top;
+
+    }
+</style>
+
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" style="background-image: url('@Url.Content("~/Static/images/cast_pattern.jpg")')">
+    @{
+        var contentLoader = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<EPiServer.IContentLoader>();
+    }
+    <!-- Wrapper for carousel items -->
+    <div class="carousel-inner" role="listbox">
+        @foreach (var item in Model.Images.Items)
+        {
+            var image = contentLoader.Get<EpiServerProject.Models.Media.ImageFile>(item.ContentLink);
+            if (Model.Images.Items.IndexOf(item) == 0)
+            {
+                <div class="item active">
+                    <img src="@Url.ContentUrl(image.ContentLink)" alt="@image.Name">
+                </div>
+            }
+            else
+            {
+                <div class="item">
+                    <img src="@Url.ContentUrl(image.ContentLink)" alt="@image.Name">
+                </div>
+
+            }
+
+        }
+    </div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-3 col-md-offset-2">
+        <button type="button" class="btn btn-primary">STEEL CASTINGS</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+       
